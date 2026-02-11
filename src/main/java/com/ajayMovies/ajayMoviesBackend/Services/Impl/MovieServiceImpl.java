@@ -1,6 +1,7 @@
 package com.ajayMovies.ajayMoviesBackend.Services.Impl;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +30,10 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> getAllMovies() throws IOException {
-        List<Movie> movies = movieRepo.findAll();
-        for (Movie movie : movies) {
-            if (movie.getPosterPath() != null && movie.getPosterPath().contains("uploads")) {
-                String fileName = movie.getPosterPath().substring(movie.getPosterPath().lastIndexOf("\\") + 1);
-                movie.setPosterPath("/movies/" + fileName);
-            }
-        }
-        return movies;
+        // The Movie entities should already have the correct public URL path for images.
+        // No path manipulation should be needed here. This fixes a bug where the
+        // subfolder (e.g., 'posters') was being stripped from the URL.
+        return movieRepo.findAll();
     }
 
     @Override

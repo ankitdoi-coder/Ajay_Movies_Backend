@@ -3,6 +3,8 @@ package com.ajayMovies.ajayMoviesBackend.JWT;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -11,12 +13,17 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private static final String SECRET =
-            "A9J3A5Y2M0V1E5S3E4C6R7E8T9K0E1Y2";
+    @Value("${jwt.secret:DevSecretKey123456789DevSecretKey123456789}")
+    private String secret;
 
     private static final long EXPIRATION_TIME = 60 * 60 * 1000; // 1 hour
 
-    private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
+    private Key key;
+
+    @PostConstruct
+    public void init() {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+    }
 
     // Generate JWT
     public String generateToken(String email) {

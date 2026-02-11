@@ -2,7 +2,6 @@ package com.ajayMovies.ajayMoviesBackend.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +18,6 @@ import com.ajayMovies.ajayMoviesBackend.Repository.AdminRepo;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins="http://localhost:4200")
 public class AuthController {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
