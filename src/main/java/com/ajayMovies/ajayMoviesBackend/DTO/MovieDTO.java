@@ -29,5 +29,6 @@ public class MovieDTO {
     private String downloadLink480;
     private String downloadLink720;
     private String downloadLink1080;
+    private String category;
 }
 

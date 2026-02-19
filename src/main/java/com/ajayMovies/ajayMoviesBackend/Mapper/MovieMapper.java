@@ -10,6 +10,7 @@ import com.ajayMovies.ajayMoviesBackend.DTO.MovieDTO;
 import com.ajayMovies.ajayMoviesBackend.Entity.Movie;
 import com.ajayMovies.ajayMoviesBackend.Entity.Screenshots;
 import com.ajayMovies.ajayMoviesBackend.Services.FileStorageService;
+import com.ajayMovies.ajayMoviesBackend.Enums.Categories;
 import java.util.*;
 
 @Component
@@ -38,6 +39,10 @@ public class MovieMapper {
         movie.setDownloadLink480(movieDTO.getDownloadLink480());
         movie.setDownloadLink720(movieDTO.getDownloadLink720());
         movie.setDownloadLink1080(movieDTO.getDownloadLink1080());
+        if (movieDTO.getCategory() != null) {
+            movie.setCategory(Categories.valueOf(movieDTO.getCategory()));
+        }
+
 
         //Files Data
         // 1.Poster 

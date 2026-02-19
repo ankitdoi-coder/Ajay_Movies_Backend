@@ -2,10 +2,16 @@ package com.ajayMovies.ajayMoviesBackend.Entity;
 
 import java.util.List;
 
+import com.ajayMovies.ajayMoviesBackend.Enums.Categories;
+
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.CascadeType;
@@ -52,8 +58,13 @@ public class Movie {
     @Column(name = "movie_synopsis")
     private String movieSynopsis;
 
+    // why orphan removal is used because this movie enity has child ss so when we
+    // delete movie it childs also get deleted
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Screenshots> screenshots;
+
+    @Enumerated(EnumType.STRING)
+    private Categories category;
 
     @Column(name = "download_link_480")
     private String downloadLink480;

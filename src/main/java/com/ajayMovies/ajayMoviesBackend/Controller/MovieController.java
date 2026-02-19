@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ajayMovies.ajayMoviesBackend.DTO.MovieDTO;
 import com.ajayMovies.ajayMoviesBackend.Entity.Movie;
+import com.ajayMovies.ajayMoviesBackend.Enums.Categories;
 import com.ajayMovies.ajayMoviesBackend.Services.MovieService;
 
 @RestController
@@ -58,5 +59,11 @@ public class MovieController {
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Error while fetching Movies:" +e.getMessage());
         }
+    }
+
+    //drop down api for categories
+    @GetMapping("/categories")
+    public ResponseEntity<Categories[]> getCategories(){
+        return ResponseEntity.ok(Categories.values());
     }
 }
