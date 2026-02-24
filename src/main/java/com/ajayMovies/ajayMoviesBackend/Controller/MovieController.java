@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ajayMovies.ajayMoviesBackend.DTO.MovieDTO;
 import com.ajayMovies.ajayMoviesBackend.Entity.Movie;
 import com.ajayMovies.ajayMoviesBackend.Enums.Categories;
+import com.ajayMovies.ajayMoviesBackend.Services.FilterService;
 import com.ajayMovies.ajayMoviesBackend.Services.MovieService;
 
 @RestController
@@ -24,46 +26,56 @@ import com.ajayMovies.ajayMoviesBackend.Services.MovieService;
 public class MovieController {
 
     @Autowired
-    MovieService movieService;  
-    
+    MovieService movieService;
+    @Autowired 
+    FilterService filterService;
+
     @PostMapping(value = "/save-movie", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> saveMovie(
-        @RequestPart("movie") MovieDTO movieDTO,
-        @RequestPart("poster") MultipartFile poster,
-        @RequestPart("screenshots") List<MultipartFile> screenshots
-    ) {
+            @RequestPart("movie") MovieDTO movieDTO,
+            @RequestPart("poster") MultipartFile poster,
+            @RequestPart("screenshots") List<MultipartFile> screenshots) {
         try {
-            Movie movie = movieService.saveMovie(movieDTO,poster,screenshots);
+            Movie movie = movieService.saveMovie(movieDTO, poster, screenshots);
             return ResponseEntity.ok(movie);
         } catch (IllegalArgumentException | IllegalStateException | IOException e) {
             return ResponseEntity.status(500).body("Error saving movie: " + e.getMessage());
         }
     }
-    
+
     @GetMapping("/get-all-movies")
-    public ResponseEntity<?> getAllMovies(){
+    public ResponseEntity<?> getAllMovies() {
         try {
-            List<Movie> movies=movieService.getAllMovies();
+            List<Movie> movies = movieService.getAllMovies();
             return ResponseEntity.ok(movies);
-        } catch(IOException e){
-            return ResponseEntity.status(500).body("Error while Fething Movies: "+e.getMessage());
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body("Error while Fething Movies: " + e.getMessage());
         }
-        
+
     }
 
     @GetMapping("/get-by-id/{id}")
-    public ResponseEntity<?> getMovieById(@PathVariable Long id){
-        try{
-            Movie movie=movieService.getMovieByID(id);
+    public ResponseEntity<?> getMovieById(@PathVariable Long id) {
+        try {
+            Movie movie = movieService.getMovieByID(id);
             return ResponseEntity.ok(movie);
         } catch (IOException e) {
-            return ResponseEntity.status(500).body("Error while fetching Movies:" +e.getMessage());
+            return ResponseEntity.status(500).body("Error while fetching Movies:" + e.getMessage());
         }
     }
 
-    //drop down api for categories
+    // drop down api for categories
     @GetMapping("/categories")
-    public ResponseEntity<Categories[]> getCategories(){
+    public ResponseEntity<Categories[]> getCategories() {
         return ResponseEntity.ok(Categories.values());
+    }
+
+    //Search Api 
+    @GetMapping("/search")
+    public ResponseEntity<List<Movie>> searchMovieByFilter(
+        @RequestParam(required=false) String title,
+        @RequestParam(required=false) String category
+    ) {
+        return ResponseEntity.ok(filterService.searchWithFilters(title, category));
     }
 }

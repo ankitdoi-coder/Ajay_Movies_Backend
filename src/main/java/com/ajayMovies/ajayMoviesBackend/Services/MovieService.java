@@ -13,4 +13,5 @@ public interface  MovieService {
     Movie saveMovie(MovieDTO movieDTO,MultipartFile poster,List<MultipartFile> screenshots) throws IOException;
     List<Movie> getAllMovies() throws IOException;
     Movie getMovieByID(Long id) throws IOException;
+    
 }
