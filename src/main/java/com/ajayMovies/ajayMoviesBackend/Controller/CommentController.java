@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +25,7 @@ public class CommentController {
 
     //api to add comment
     @PostMapping("/add-comment")
-    public ResponseEntity<Comment> addComment(@RequestBody CommentDTO commentDTO){
+    public ResponseEntity<Comment> addComment(@RequestPart("comment") CommentDTO commentDTO){
         return ResponseEntity.ok(commentService.addComment(commentDTO));
     }
 
