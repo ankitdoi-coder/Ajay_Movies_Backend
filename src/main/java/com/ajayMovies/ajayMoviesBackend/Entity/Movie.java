@@ -20,6 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -72,5 +73,8 @@ public class Movie {
     private String downloadLink720;
     @Column(name = "download_link_1080")
     private String downloadLink1080;
+
+    @OneToMany(mappedBy="movie",cascade=CascadeType.ALL,orphanRemoval=true)
+    private List<Comment> comments;
 
 }
