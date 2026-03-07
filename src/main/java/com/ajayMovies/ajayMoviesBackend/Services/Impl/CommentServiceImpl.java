@@ -1,5 +1,7 @@
 package com.ajayMovies.ajayMoviesBackend.Services.Impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,13 @@ public class CommentServiceImpl implements CommentService {
     public Comment addComment(CommentDTO commentDTO) {
       Comment savedComment= commentRepository.save(commentMapper.dtoToComment(commentDTO));
       return savedComment;
+    }
+
+
+    @Override
+    public List<Comment> getCommentByMovieId(Long movieId) {
+      List<Comment> comments=commentRepository.getByMovieId(movieId);
+      return comments;
     }
 
     
