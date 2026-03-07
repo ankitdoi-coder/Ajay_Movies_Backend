@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,15 +45,26 @@ public class MovieController {
         }
     }
 
-    @GetMapping("/get-all-movies")
-    public ResponseEntity<?> getAllMovies() {
-        try {
-            List<Movie> movies = movieService.getAllMovies();
-            return ResponseEntity.ok(movies);
-        } catch (IOException e) {
-            return ResponseEntity.status(500).body("Error while Fething Movies: " + e.getMessage());
-        }
+    // @GetMapping("/get-all-movies")
+    // public ResponseEntity<?> getAllMovies() {
+    //     try {
+    //         List<Movie> movies = movieService.getAllMovies();
+    //         return ResponseEntity.ok(movies);
+    //     } catch (IOException e) {
+    //         return ResponseEntity.status(500).body("Error while Fething Movies: " + e.getMessage());
+    //     }
 
+    // }
+
+    //pagination
+    @GetMapping("/get-all-movies")
+    public ResponseEntity<?> getallMovie(Pageable pageable){
+        try {
+            Page<Movie> movies=movieService.getAll(pageable);
+            return ResponseEntity.ok(movies);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error while fetching Movies:" + e.getMessage());
+        }
     }
 
     @GetMapping("/get-by-id/{id}")
@@ -72,10 +85,14 @@ public class MovieController {
 
     //Search Api 
     @GetMapping("/search")
-    public ResponseEntity<List<Movie>> searchMovieByFilter(
+    public ResponseEntity<Page<Movie>> searchMovieByFilter(
         @RequestParam(required=false) String title,
-        @RequestParam(required=false) String category
+        @RequestParam(required=false) String category,
+        Pageable pageable
     ) {
-        return ResponseEntity.ok(filterService.searchWithFilters(title, category));
+        return ResponseEntity.ok(filterService.searchWithFilters(title, category, pageable));
     }
+
+
+    
 }

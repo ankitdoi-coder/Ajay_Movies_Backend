@@ -24,7 +24,7 @@ public class SecurityConfig {
             .cors(org.springframework.security.config.Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**", "/api/get-all-movies", "/api/get-by-id/**", "/uploads/**", "/movies/**").permitAll()
+                .requestMatchers("/api/auth/**", "/api/get-all-movies", "/api/get-by-id/**", "/api/categories/**", "/uploads/**", "/movies/**").permitAll()
                 .requestMatchers("/api/save-movie").authenticated()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().permitAll()

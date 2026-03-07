@@ -1,10 +1,10 @@
 package com.ajayMovies.ajayMoviesBackend.Services;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.ajayMovies.ajayMoviesBackend.Entity.Movie;
 
 public interface  FilterService {
-    List<Movie> searchWithFilters(String title, String category);
-    
+    Page<Movie> searchWithFilters(String title, String category, Pageable pageable);
 }

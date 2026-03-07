@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,6 +43,14 @@ public class MovieServiceImpl implements MovieService {
         Movie movie = movieRepo.findById(id).orElse(null);
         return movie;
     }
+
+    @Override
+    public Page<Movie> getAll(Pageable pageable) {
+        return movieRepo.findAll(pageable);
+    }
+
+    
+  
 
 
 
